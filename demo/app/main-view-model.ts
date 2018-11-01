@@ -4,15 +4,35 @@ import { IdtechVp3300 } from 'nativescript-idtech-vp3300';
 import { ListView, ItemEventData } from "tns-core-modules/ui/list-view";
 
 export class HelloWorldModel extends Observable {
-  public message: string;
-  private idtechVp3300: IdtechVp3300;
+  public message: string = "disconnected";
+  public myItems: BLEDevice[] = [];
 
+
+  private selected: BLEDevice;
+  private idtechVp3300: IdtechVp3300;
   constructor() {
     super();
 
     this.idtechVp3300 = new IdtechVp3300();
-    this.idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: BLEDevice) => {
+    this.idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: Set<BLEDevice>) => {
+      this.myItems = Array.from(devices) || [];
 
+      let available = this.myItems
+        .filter((i: BLEDevice) => i.isSupportedEmv);
+
+      console.error("------------------");
+      console.error(" AV: ", available);
+      console.error("------------------");
+      if (available && available.length) {
+        this.selected = available[0];
+
+        console.log("TU: ", this.selected ?
+          this.selected.getIdentifier().toString() : "UPS");
+
+        this.message = "connecting";
+        this.idtechVp3300.connectWithUuid(
+          this.selected.getIdentifier().toString());
+      }
     };
   }
 

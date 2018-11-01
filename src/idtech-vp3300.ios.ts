@@ -15,7 +15,6 @@ class BeachyEMVReaderControlDelegate
   onBluetoothAvailableDevicesListUpdate: (devices: Set<BLEDevice>) => void;
 
   bluetoothAvailableDevicesListUpdateWithDevices(devices: NSSet<BLEDevice>): void {
-    console.error("MAM TO KURWA TUTAJ #1: ", devices);
 
     if (this.onBluetoothAvailableDevicesListUpdate) {
       this.onBluetoothAvailableDevicesListUpdate(new Set<BLEDevice>([]));
@@ -23,7 +22,6 @@ class BeachyEMVReaderControlDelegate
   }
 
   bluetoothStatusUpdateWithStatus(status: string): void {
-    console.error("MAM TO KURWA TUTAJ #2: ", status);
 
     if (this.onBluetoothStatusUpdate) {
       this.onBluetoothStatusUpdate(status);
