@@ -1,21 +1,34 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page"
-  xmlns:ui="nativescript-idtech-vp3300">
-  <StackLayout class="p-20">
-    <Label text="{{ message }}" class="t-20 text-center c-black" textWrap="true"/>
-  
-    <ListView items="{{ myItems }}" 
-          itemTap="onItemTap" 
-          loaded="{{ onListViewLoaded }}" 
-          separatorColor="orangered" rowHeight="50"
-          class="list-group" id="listView" row="2">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
+    loaded="pageLoaded" class="page"
+    xmlns:ui="nativescript-idtech-vp3300">
+  <GridLayout rows="40, auto, auto, *">
+    <Label row="0"
+        text="{{ message }}"
+        class="t-20 text-center c-black"
+        textWrap="true"/>
+
+    <ListView items="{{ myItems }}"
+            row="1"
+            height="400"
+            itemTap="onItemTap"
+            loaded="{{ onListViewLoaded }}"
+            rowHeight="50"
+            id="listView">
       <ListView.itemTemplate>
-          <!-- The item template can only have a single root view container (e.g. GriLayout, StackLayout, etc.) -->
-          <StackLayout class="list-group-item">
-              <Label text="{{ title || 'Downloading...' }}" textWrap="true" class="title" />
+          <StackLayout>
+              <Label text="{{ name || 'undefined' }}"
+                textWrap="true" class="title" />
           </StackLayout>
       </ListView.itemTemplate>
-  </ListView>
-  </StackLayout>
+    </ListView>
 
-  
+    <Button tap="{{ read }}"
+        row="2"
+        class="btn btn-primary"
+        height="40" width="300"
+        visibility="{{ canRead ? 'visible' : 'collapsed' }}"
+        text="Read CC"/>
+  </GridLayout>
+
+
 </Page>

@@ -1,43 +1,66 @@
 import { Observable, EventData } from 'tns-core-modules/data/observable';
-import { IdtechVp3300 } from 'nativescript-idtech-vp3300';
+import { IdtechVp3300, BluetoothDevice } from 'nativescript-idtech-vp3300';
 
 import { ListView, ItemEventData } from "tns-core-modules/ui/list-view";
 
 export class HelloWorldModel extends Observable {
   public message: string = "disconnected";
-  public myItems: BLEDevice[] = [];
+  public myItems: BluetoothDevice[] = [];
+  public canRead: boolean = false;
 
-
-  private selected: BLEDevice;
+  private selected: BluetoothDevice;
   private idtechVp3300: IdtechVp3300;
+
   constructor() {
     super();
 
     this.idtechVp3300 = new IdtechVp3300();
-    this.idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: Set<BLEDevice>) => {
-      this.myItems = Array.from(devices) || [];
+    this.idtechVp3300.onReaderConnected = () => {
+      this.set('message', 'connected');
+      this.set('canRead', true);
+    };
+
+    this.idtechVp3300.onReaderDisconnected = () => {
+      this.set('message', 'disconnected');
+      this.set('canRead', false);
+    };
+
+    this.idtechVp3300.onReaderData = (data: string) => {
+      alert(data);
+    };
+
+    this.idtechVp3300.onReaderDataParseError = (error: string) => {
+      alert(error);
+    };
+
+    this.idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: Set<BluetoothDevice>) => {
+      if (devices === null) {
+        return;
+      }
+
+      this.set('myItems', Array.from(devices) || []);
 
       let available = this.myItems
-        .filter((i: BLEDevice) => i.isSupportedEmv);
+        .filter((i: BluetoothDevice) => i.isSupportedEmv);
 
-      console.error("------------------");
-      console.error(" AV: ", available);
-      console.error("------------------");
       if (available && available.length) {
         this.selected = available[0];
 
-        console.log("TU: ", this.selected ?
-          this.selected.getIdentifier().toString() : "UPS");
+        this.set('message', 'connecting');
 
-        this.message = "connecting";
-        this.idtechVp3300.connectWithUuid(
-          this.selected.getIdentifier().toString());
+        this.idtechVp3300
+          .connectWithIdentifier(this.selected.identifier);
       }
     };
   }
 
+  read() {
+    this.idtechVp3300.readCardData(0);
+  }
+
   onListViewLoaded(args: EventData) {
-    const listView = <ListView>args.object;
+    // const listView = <ListView>args.object;
+
   }
 
   onItemTap(args: ItemEventData) {

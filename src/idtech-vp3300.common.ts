@@ -1,13 +1,32 @@
-import { Observable } from 'tns-core-modules/data/observable';
+export abstract class IdtechEmv {
+  onBluetoothStatusUpdate: (status: String) => void;
+  onBluetoothAvailableDevicesListUpdate: (devices: Set<BluetoothDevice>) => void;
 
-export class Common extends Observable {
+  onReaderConnected: () => void;
+  onReaderDisconnected: () => void;
+  onReaderData: (data: String) => void;
+  onReaderDataParseError: (errorMessage: String) => void;
+  onReaderSendsMessage: (message: String) => void;
 
-  constructor() {
-    super();
-  }
+  abstract connectWithIdentifier(uuid: string): boolean;
+  abstract connectWithFriendlyName(name: string): boolean;
+
+  abstract readCardData(amount: number, timeout?: number): Promise<void>;
 
 }
 
-export class Utils {
+export class BluetoothDevice {
+  isSupportedEmv: boolean;
+  name: string;
+  identifier: string;
 
+  constructor(payload: {
+    identifier: string,
+    name: string,
+    isSupportedEmv: boolean,
+  }) {
+    this.identifier = payload.identifier;
+    this.name = payload.name;
+    this.isSupportedEmv = payload.isSupportedEmv;
+  }
 }
