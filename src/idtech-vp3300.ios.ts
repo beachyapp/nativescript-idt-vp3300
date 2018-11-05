@@ -11,7 +11,7 @@ class BeachyEMVReaderControlDelegate
   extends NSObject
   implements BeachyEMVReaderControlProtocol {
 
-  private bleDevices = new Set<BluetoothDevice>();
+  // private bleDevices = new Set<BluetoothDevice>();
 
   public static ObjCProtocols = [BeachyEMVReaderControlProtocol];
 
@@ -29,11 +29,13 @@ class BeachyEMVReaderControlDelegate
 
   bluetoothAvailableDevicesListUpdateWithDevices(devices: NSSet<BLEDevice>): void {
     if (devices && devices.count) {
+      const bleDevices = new Set<BluetoothDevice>();
+
       for (let i = 0; i < devices.count; i++) {
         let current = devices.allObjects[i] as NSObject;
 
         if (current) {
-          this.bleDevices.add(new BluetoothDevice({
+          bleDevices.add(new BluetoothDevice({
             identifier: current.valueForKey('identifier') ?
               current.valueForKey('identifier').toString() : null,
             name: current.valueForKey('name'),
@@ -41,10 +43,10 @@ class BeachyEMVReaderControlDelegate
           }));
         }
       }
-    }
 
-    if (this.onBluetoothAvailableDevicesListUpdate) {
-      this.onBluetoothAvailableDevicesListUpdate(this.bleDevices);
+      if (this.onBluetoothAvailableDevicesListUpdate) {
+        this.onBluetoothAvailableDevicesListUpdate(bleDevices);
+      }
     }
   }
 
