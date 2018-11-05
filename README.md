@@ -24,7 +24,7 @@ That's simply all I needed to be able to get and parse CC data.
 ## Installation
 
 ```javascript
-tns plugin add nativescript-idtech-vp3300
+tns plugin add nativescript-idtech-vp-sdk
 ```
 
 ## Usage

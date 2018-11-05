@@ -1,6 +1,6 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
     loaded="pageLoaded" class="page"
-    xmlns:ui="nativescript-idtech-vp3300">
+    xmlns:ui="nativescript-idtech-vp-sdk">
   <GridLayout rows="40, auto, auto, *">
     <Label row="0"
         text="{{ message }}"

@@ -1,5 +1,5 @@
 import { Observable, EventData } from 'tns-core-modules/data/observable';
-import { IdtechVp3300, BluetoothDevice } from 'nativescript-idtech-vp3300';
+import { IdtechVp3300, BluetoothDevice } from 'nativescript-idtech-vp-sdk';
 
 import { ListView, ItemEventData } from "tns-core-modules/ui/list-view";
 

@@ -27,7 +27,7 @@
   "homepage": "https://github.com/NativeScript/template-hello-world-ts",
   "android": {
     "v8Flags": "--expose_gc",
-    "requireModules": ["nativescript-idtech-vp3300"]
+    "requireModules": ["nativescript-idtech-vp-sdk"]
   },
   "devDependencies": {
     "nativescript-dev-typescript": "^0.3.0"
