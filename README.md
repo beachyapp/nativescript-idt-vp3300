@@ -1,40 +1,75 @@
-# Your Plugin Name
+# Nativescript IDTech VP3300 SDK
 
-Add your plugin badges here. See [nativescript-urlhandler](https://github.com/hypery2k/nativescript-urlhandler) for example.
+*** IMPORTANT ***
+Works only on iOS. Uses custom iOS (umbrella) framework that implements
+IDTech Universal SDK
 
-Then describe what's the purpose of your plugin. 
+Subset of ID Tech Universal SDK's methods to support VP3300 EMV reader.
 
-In case you develop UI plugin, this is where you can add some screenshots.
+Contains of:
+ - BLE device search
+ - API methods for connecting to VP3300
+ - API method for starting contactless/swipe/chip transaction
 
-## (Optional) Prerequisites / Requirements
+Returns *decrypted* data string
+Decryption done following this guidance:
 
-Describe the prerequisites that the user need to have installed before using your plugin. See [nativescript-firebase plugin](https://github.com/eddyverbruggen/nativescript-plugin-firebase) for example.
+* https://idtechproducts.com/how-to-decrypt-credit-card-data-part-i/
+* https://idtechproducts.com/how-to-decrypt-credit-card-data-part-ii/
+
+
+*NOTE* this is just a tiny subset of available SDK methods.
+That's simply all I needed to be able to get and parse CC data.
 
 ## Installation
 
-Describe your plugin installation steps. Ideally it would be something like:
-
 ```javascript
-tns plugin add <your-plugin-name>
+tns plugin add nativescript-idtech-vp3300
 ```
 
-## Usage 
+## Usage
 
-Describe any usage specifics for your plugin. Give examples for Android, iOS, Angular if needed. See [nativescript-drop-down](https://www.npmjs.com/package/nativescript-drop-down) for example.
-	
-	```javascript
-    Usage code snippets here
-    ```)
+```javascript
+    const idtechVp3300 = new IdtechVp3300();
 
-## API
+    //Handlers:
+    idtechVp3300.onReaderConnected = () => {
+      alert('connected');
+    };
 
-Describe your plugin methods and properties here. See [nativescript-feedback](https://github.com/EddyVerbruggen/nativescript-feedback) for example.
-    
-| Property | Default | Description |
-| --- | --- | --- |
-| some property | property default value | property description, default values, etc.. |
-| another property | property default value | property description, default values, etc.. |
-    
+    idtechVp3300.onReaderDisconnected = () => {
+      alert('disconnected');
+    };
+
+    idtechVp3300.onReaderData = (data: string) => {
+      alert(data);
+    };
+
+    idtechVp3300.onReaderDataParseError = (error: string) => {
+      alert(error);
+    };
+
+    // BLE
+    idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: Set<BluetoothDevice>) => {
+        const devicesList = Array.from(devices) || [];
+        const emvReaders = devicesList
+            .filter((i: BluetoothDevice) => i.isSupportedEmv);
+
+        if (available && available.length) {
+            // Connect to the first one
+            idtechVp3300
+                .connectWithIdentifier(available[0].identifier)
+        }
+    }
+
+    // Read
+    idtechVp3300.readCardData(0); // $0
+
+    // Connect
+    idtechVp3300.connectWithIdentifier("ABC")
+    idtechVp3300.connectWithFriendlyName("ID Tech")
+```
+
 ## License
 
 Apache License Version 2.0, January 2004

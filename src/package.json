@@ -1,7 +1,7 @@
 {
     "name": "nativescript-idtech-vp3300",
     "version": "1.0.0",
-    "description": "Your awesome NativeScript plugin.",
+    "description": "Nativescript IDTech VP3300 SDK",
     "main": "idtech-vp3300",
     "typings": "index.d.ts",
     "nativescript": {
@@ -34,8 +34,8 @@
         "iOS"
     ],
     "author": {
-        "name": "Your Name",
-        "email": "youremail@yourdomain.com"
+        "name": "Piotr Ilski",
+        "email": "piotr.ilski@gmail.com"
     },
     "bugs": {
         "url": "https://github.com/piotrilski/nativescript-idtech-vp3300/issues"
