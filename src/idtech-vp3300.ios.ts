@@ -11,10 +11,7 @@ class BeachyEMVReaderControlDelegate
   extends NSObject
   implements BeachyEMVReaderControlProtocol {
 
-  // private bleDevices = new Set<BluetoothDevice>();
-
   public static ObjCProtocols = [BeachyEMVReaderControlProtocol];
-
   public static init(): BeachyEMVReaderControlDelegate {
     return <BeachyEMVReaderControlDelegate>BeachyEMVReaderControlDelegate.new();
   }
