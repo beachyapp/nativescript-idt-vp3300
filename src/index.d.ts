@@ -1,4 +1,20 @@
-import { IdtechEmv } from './idtech-vp3300.common';
+export abstract class IdtechEmv {
+    onBluetoothStatusUpdate: (status: String) => void;
+    onBluetoothAvailableDevicesListUpdate: (devices: Set<BluetoothDevice>) => void;
+
+    onReaderConnected: () => void;
+    onReaderDisconnected: () => void;
+    onReaderData: (data: String) => void;
+    onReaderDataParseError: (errorMessage: String) => void;
+    onReaderSendsMessage: (message: String) => void;
+
+    abstract connectWithIdentifier(uuid: string): boolean;
+    abstract connectWithFriendlyName(name: string): boolean;
+
+    abstract readCardData(amount: number, timeout?: number): Promise<void>;
+
+}
+
 export declare class IdtechVp3300 extends IdtechEmv {
     private emvReaderControl;
     private delegate;
