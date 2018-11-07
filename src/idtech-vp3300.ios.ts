@@ -53,7 +53,7 @@ class BeachyEMVReaderControlDelegate
     }
   }
 
-  readerConnected(): void {
+  readerConnectedWithUuid(_uuid: String): void {
     if (this.onReaderConnected) {
       this.onReaderConnected();
     }

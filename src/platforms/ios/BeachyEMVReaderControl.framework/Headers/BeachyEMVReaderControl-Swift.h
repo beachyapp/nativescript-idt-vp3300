@@ -239,7 +239,7 @@ SWIFT_PROTOCOL("_TtP22BeachyEMVReaderControl30BeachyEMVReaderControlProtocol_")
 @protocol BeachyEMVReaderControlProtocol
 - (void)bluetoothStatusUpdateWithStatus:(NSString * _Nonnull)status;
 - (void)bluetoothAvailableDevicesListUpdateWithDevices:(NSSet<BLEDevice *> * _Nonnull)devices;
-- (void)readerConnected;
+- (void)readerConnectedWithUuid:(NSString * _Nonnull)uuid;
 - (void)readerDisconnected;
 - (void)readerDataParseErrorWithErrorMessage:(NSString * _Nonnull)errorMessage;
 - (void)readerDataWithData:(NSString * _Nonnull)data;
