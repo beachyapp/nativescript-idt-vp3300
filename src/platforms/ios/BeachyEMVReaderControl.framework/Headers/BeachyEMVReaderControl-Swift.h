@@ -204,6 +204,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) BeachyEMVReaderControl
 + (void)setShared:(BeachyEMVReaderControl * _Nonnull)value;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
+- (void)cancelReadCardData;
 /// Send a command to EMV reader to become active and
 /// start waiting for swipe/contactless payment
 /// \param amount amount
@@ -239,7 +240,7 @@ SWIFT_PROTOCOL("_TtP22BeachyEMVReaderControl30BeachyEMVReaderControlProtocol_")
 @protocol BeachyEMVReaderControlProtocol
 - (void)bluetoothStatusUpdateWithStatus:(NSString * _Nonnull)status;
 - (void)bluetoothAvailableDevicesListUpdateWithDevices:(NSSet<BLEDevice *> * _Nonnull)devices;
-- (void)readerConnectedWithUuid:(NSString * _Nonnull)uuid;
+- (void)readerConnected;
 - (void)readerDisconnected;
 - (void)readerDataParseErrorWithErrorMessage:(NSString * _Nonnull)errorMessage;
 - (void)readerDataWithData:(NSString * _Nonnull)data;

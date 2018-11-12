@@ -46,10 +46,12 @@ export class HelloWorldModel extends Observable {
       if (available && available.length) {
         this.selected = available[0];
 
-        this.set('message', 'connecting');
+        this.set('message', `connecting ${this.selected.identifier}`);
 
-        this.idtechVp3300
-          .connectWithIdentifier(this.selected.identifier);
+        setTimeout(() => {
+          this.idtechVp3300
+            .connectWithIdentifier(this.selected.identifier);
+        }, 3000);
       }
     };
   }

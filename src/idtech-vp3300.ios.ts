@@ -53,7 +53,7 @@ class BeachyEMVReaderControlDelegate
     }
   }
 
-  readerConnectedWithUuid(_uuid: String): void {
+  readerConnected(): void {
     if (this.onReaderConnected) {
       this.onReaderConnected();
     }
@@ -162,6 +162,10 @@ export class IdtechVp3300 extends IdtechEmv {
       .initWithUUIDString(uuidString);
 
     return this.emvReaderControl.connectWithUuid(uuid);
+  }
+
+  cancelReadCardData() {
+    this.emvReaderControl.cancelReadCardData();
   }
 
   /**
