@@ -22,6 +22,7 @@ export declare class IdtechVp3300 extends IdtechEmv {
     connectWithFriendlyName(name: string): boolean;
     connectWithIdentifier(uuidString: string): boolean;
     readCardData(amount: number, timeout?: number): Promise<void>;
+    cancelReadCardData(): void;
 }
 
 export declare class BluetoothDevice {

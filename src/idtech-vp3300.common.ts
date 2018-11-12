@@ -12,7 +12,7 @@ export abstract class IdtechEmv {
   abstract connectWithFriendlyName(name: string): boolean;
 
   abstract readCardData(amount: number, timeout?: number): Promise<void>;
-
+  abstract cancelReadCardData(): void;
 }
 
 export class BluetoothDevice {

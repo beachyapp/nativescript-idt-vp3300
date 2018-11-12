@@ -1,6 +1,6 @@
 {
     "name": "nativescript-idtech-vp-sdk",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Nativescript IDTech VP3300 SDK",
     "main": "idtech-vp3300",
     "typings": "index.d.ts",

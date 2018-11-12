@@ -1,16 +1,21 @@
 import { IdtechEmv } from './idtech-vp3300.common';
 
 export class IdtechVp3300 extends IdtechEmv {
+  cancelReadCardData(): void {
+
+  }
 
   connectWithIdentifier(uuid: string): boolean {
-    throw new Error("Method not implemented.");
+    return false;
   }
 
   connectWithFriendlyName(name: string): boolean {
-    throw new Error("Method not implemented.");
+    return false;
   }
 
   readCardData(amount: number, timeout?: number): Promise<void> {
-    throw new Error("Method not implemented.");
+    return new Promise((resolve, reject) => {
+      reject('We do not support android yet');
+    });
   }
 }
