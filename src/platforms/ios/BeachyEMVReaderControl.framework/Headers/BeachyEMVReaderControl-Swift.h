@@ -205,6 +205,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) BeachyEMVReaderControl
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
 - (void)cancelReadCardData;
+/// Configure EMV sleep and power off times
+/// \param sleepTimeInSec sleep time in seconds
+///
+/// \param powerOffTimeInSec power off time in seconds
+///
+///
+/// returns:
+/// 0 - ok,
+/// anything else - error
+- (uint32_t)configureSleepModeAndPowerOffTimesWithSleepTimeInSec:(NSInteger)sleepTimeInSec powerOffTimeInSec:(NSInteger)powerOffTimeInSec SWIFT_WARN_UNUSED_RESULT;
 /// Send a command to EMV reader to become active and
 /// start waiting for swipe/contactless payment
 /// \param amount amount

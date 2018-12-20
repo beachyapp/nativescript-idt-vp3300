@@ -143,6 +143,20 @@ export class IdtechVp3300 extends IdtechEmv {
   }
 
   /**
+   * Configure EMV sleep/powerOff times.
+   * Device powered on state: sleepTime + powerOffTime
+   * @param sleepTime time interval before EMV enters sleep mode
+   * @param powerOffTime time interval before EMV powers off
+   */
+  setSleepAndPowerOffTimes(sleepTime: number, powerOffTime: number) {
+    this.emvReaderControl
+      .configureSleepModeAndPowerOffTimesWithSleepTimeInSecPowerOffTimeInSec(
+        sleepTime,
+        powerOffTime,
+      );
+  }
+
+  /**
    * Connects with friendly name
    * @param name device friendly name
    * @returns true if connecting
