@@ -1,12 +1,13 @@
 import { Observable, EventData } from 'tns-core-modules/data/observable';
 import { IdtechVp3300, BluetoothDevice } from 'nativescript-idtech-vp-sdk';
 
-import { ListView, ItemEventData } from "tns-core-modules/ui/list-view";
+import { ItemEventData } from "tns-core-modules/ui/list-view";
 
 export class HelloWorldModel extends Observable {
   public message: string = "disconnected";
   public myItems: BluetoothDevice[] = [];
   public canRead: boolean = false;
+  public logs: string = "App started";
 
   private selected: BluetoothDevice;
   private idtechVp3300: IdtechVp3300;
@@ -37,10 +38,9 @@ export class HelloWorldModel extends Observable {
       this.isConnecting = false;
       this.isConnected = false;
 
-      console.log('EMV has been connected for: ',
-        (this.endTime - this.startTime) / 1000);
+      const aliveTime = (this.endTime - this.startTime) / 1000;
 
-      this.set('message', 'disconnected');
+      this.set('message', `disconnected after ${aliveTime}`);
       this.set('canRead', false);
     };
 
@@ -51,6 +51,12 @@ export class HelloWorldModel extends Observable {
     this.idtechVp3300.onReaderDataParseError = (error: string) => {
       alert(error);
     };
+
+    this.idtechVp3300.onReaderSendsMessage = (message: string) => {
+      const msgs = `${this.logs}\n${message}`;
+
+      this.set('logs', msgs);
+    }
 
     this.idtechVp3300.onBluetoothAvailableDevicesListUpdate = (devices: Set<BluetoothDevice>) => {
       if (devices === null) {
@@ -65,15 +71,13 @@ export class HelloWorldModel extends Observable {
       if (available && available.length) {
         this.selected = available[0];
 
-        console.log('it might want to connect now...');
-
         setTimeout(() => {
           if (!this.isConnecting && !this.isConnected) {
-            console.log('connecting ...');
-
             this.isConnecting = this.idtechVp3300
               .connectWithIdentifier(this.selected.identifier);
-            this.set('message', `connecting ${this.selected.identifier}`);
+            if (this.isConnecting) {
+              this.set('message', `connecting ${this.selected.identifier}`);
+            }
           }
         }, 1000);
       }
@@ -81,11 +85,10 @@ export class HelloWorldModel extends Observable {
   }
 
   read() {
-    this.idtechVp3300.readCardData(0);
+    this.idtechVp3300.readCardData(0, 30);
   }
 
-  onListViewLoaded(args: EventData) {
-    // const listView = <ListView>args.object;
+  onListViewLoaded(_args: EventData) {
 
   }
 

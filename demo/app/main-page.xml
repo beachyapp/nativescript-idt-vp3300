@@ -25,9 +25,15 @@
     <Button tap="{{ read }}"
         row="2"
         class="btn btn-primary"
-        height="40" width="300"
+        height="44" width="100%"
         visibility="{{ canRead ? 'visible' : 'collapsed' }}"
         text="Read CC"/>
+
+    <Label row="3"
+        text="{{ logs }}"
+        backgroundColor="black"
+        color="white"
+        textWrap="true"/>
   </GridLayout>
 
 
