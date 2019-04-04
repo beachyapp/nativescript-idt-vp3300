@@ -11,16 +11,35 @@ export class HelloWorldModel extends Observable {
   private selected: BluetoothDevice;
   private idtechVp3300: IdtechVp3300;
 
+  private startTime = new Date().getTime();
+  private endTime = new Date().getTime();
+
+  private isConnecting = false;
+  private isConnected = false;
+
   constructor() {
     super();
 
     this.idtechVp3300 = new IdtechVp3300();
     this.idtechVp3300.onReaderConnected = () => {
+      this.startTime = new Date().getTime();
+
+      this.isConnecting = false;
+      this.isConnected = true;
+
       this.set('message', 'connected');
       this.set('canRead', true);
     };
 
     this.idtechVp3300.onReaderDisconnected = () => {
+      this.endTime = new Date().getTime();
+
+      this.isConnecting = false;
+      this.isConnected = false;
+
+      console.log('EMV has been connected for: ',
+        (this.endTime - this.startTime) / 1000);
+
       this.set('message', 'disconnected');
       this.set('canRead', false);
     };
@@ -46,12 +65,17 @@ export class HelloWorldModel extends Observable {
       if (available && available.length) {
         this.selected = available[0];
 
-        this.set('message', `connecting ${this.selected.identifier}`);
+        console.log('it might want to connect now...');
 
         setTimeout(() => {
-          this.idtechVp3300
-            .connectWithIdentifier(this.selected.identifier);
-        }, 3000);
+          if (!this.isConnecting && !this.isConnected) {
+            console.log('connecting ...');
+
+            this.isConnecting = this.idtechVp3300
+              .connectWithIdentifier(this.selected.identifier);
+            this.set('message', `connecting ${this.selected.identifier}`);
+          }
+        }, 1000);
       }
     };
   }
